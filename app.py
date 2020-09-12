@@ -28,5 +28,15 @@ def callback():
 
     return 'OK'
 
+@handler.add(MessageEvent, message = TextMessage)
+def textmessage(event):
+    if event.message.text == "ping" or event.message.text == "Ping":
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(
+                text="PONG!"
+            )
+        )
+
 if __name__ == "__main__":
     app.run()
