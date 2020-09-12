@@ -50,7 +50,6 @@ def textmessage(event):
         with psycopg2.connect(db_url, sslmode='require') as conn:
             with conn.cursor() as cur:
                 cur.execute('SELECT * FROM machine_status;')
-                cur.commit()
                 line_bot_api.reply_message(
                     event.reply_token,
                     str(cur.fetchone())
