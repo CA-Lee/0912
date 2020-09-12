@@ -15,7 +15,7 @@ handler = WebhookHandler('LINE_BOT_SECRET')
 def root():
     return 'OK'
 
-@app.route("/callback", method = ["POST"])
+@app.route("/callback", methods = ["POST"])
 def callback():
     sign = request.headers['X-Line-Signature']
     body = request.get_data(as_text=True)
