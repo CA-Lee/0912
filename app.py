@@ -51,7 +51,7 @@ def textmessage(event):
         with psycopg2.connect(db_url, sslmode='require') as conn:
             with conn.cursor() as cur:
                 cur.execute('SELECT status FROM machine_status;')
-                rec = json.loads(cur.fetchone())
+                rec = json.loads(cur.fetchone()[0])
                 for machine, status in rec.items():
                     reply_text += machine + "：" + status + "\n"
                 
