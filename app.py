@@ -44,7 +44,7 @@ rich_menu_ids['main'] = line_bot_api.create_rich_menu(
                     height=600
                 ),
                 action=MessageAction(
-                    text="訂閱洗衣機"
+                    text="登錄機器狀態"
                 )
             )
         ]
@@ -101,6 +101,36 @@ def textmessage(event):
                         reply_text.strip()
                     )
                 )
+    if mesg == "登錄機器狀態":
+        pass
+        """
+
+rich_menu_ids['machine9'] = line_bot_api.create_rich_menu(
+    rich_menu=RichMenu(
+        size=RichMenuSize(width=1200, height=800),
+        selected=True,
+        name="machine9",
+        chat_bar_text="Tap here",
+        areas=[
+            RichMenuArea(
+                bounds=RichMenuBounds(
+                    x=0,
+                    y=0,
+                    width=300,
+                    height=400
+                ),
+                action=PostbackAction(
+                    data="machine=洗衣機"
+                )
+            ),
+            
+        ]
+    )
+)
+with open("img/rich_menu/main.png", 'rb') as f:
+    line_bot_api.set_rich_menu_image(rich_menu_ids['main'], 'image/png', f)
+
+        """
 
 
 if __name__ == "__main__":
