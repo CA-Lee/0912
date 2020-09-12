@@ -15,6 +15,45 @@ handler = WebhookHandler(os.environ['LINE_BOT_SECRET'])
 
 db_url = os.environ['DATABASE_URL']
 
+# init
+
+rich_menu_ids = {}
+rich_menu_ids['main'] = line_bot_api.create_rich_menu(
+    rich_menu=RichMenu(
+        size=RichMenuSize(width=1200, height=600),
+        selected=False,
+        name="main",
+        chat_bar_text="Tap here",
+        areas=[
+            RichMenuArea(
+                bounds=RichMenuBounds(
+                    x=0,
+                    y=0,
+                    width=540,
+                    height=600
+                ),
+                action=MessageAction(
+                    text="即時狀態查詢"
+                )
+            ),
+            RichMenuArea(
+                bounds=RichMenuBounds(
+                    x=660,
+                    y=0,
+                    width=540,
+                    height=600
+                ),
+                action=MessageAction(
+                    text="訂閱洗衣機"
+                )
+            )
+        ]
+    )
+)
+with open("img/rich_menu/main.png", 'rb') as f:
+    line_bot_api.set_rich_menu_image(rich_menu_ids['main'], 'image/png', f)
+line_bot_api.set_default_rich_menu(rich_menu_ids['main'])
+
 
 @app.route("/")
 def root():
@@ -54,7 +93,7 @@ def textmessage(event):
                 rec = json.loads(cur.fetchone()[0])
                 for machine, status in rec.items():
                     reply_text += machine + "：" + status + "\n"
-                
+
                 line_bot_api.reply_message(
                     event.reply_token,
                     TextSendMessage(
