@@ -2,6 +2,8 @@
 
 ###### tags: `SideProject`
 
+[在HackMD上閱讀](https://hackmd.io/uOkD_xz6Qq6McCqpnL0plA)
+
 ## 簡介
 
 ~~因為我排不到洗衣機 幹~~
