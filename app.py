@@ -91,6 +91,7 @@ def textmessage(event):
             with conn.cursor() as cur:
                 cur.execute('SELECT status FROM machine_status;')
                 rec = json.loads(cur.fetchone()[0])
+                reply_text = ""
                 for machine, status in rec.items():
                     reply_text += machine + "：" + status + "\n"
 
