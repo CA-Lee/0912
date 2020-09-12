@@ -9,7 +9,7 @@ import os
 app = Flask(__name__)
 
 line_bot_api = LineBotApi(os.environ['LINE_BOT_TOKEN'])
-handler = WebhookHandler('LINE_BOT_SECRET')
+handler = WebhookHandler(os.environ['LINE_BOT_SECRET'])
 
 @app.route("/")
 def root():
