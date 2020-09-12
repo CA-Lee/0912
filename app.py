@@ -6,6 +6,7 @@ from linebot.models import *
 
 import os
 import psycopg2
+import json
 
 app = Flask(__name__)
 
@@ -49,11 +50,15 @@ def textmessage(event):
     if mesg == "即時狀態查詢":
         with psycopg2.connect(db_url, sslmode='require') as conn:
             with conn.cursor() as cur:
-                cur.execute('SELECT * FROM machine_status;')
+                cur.execute('SELECT status FROM machine_status;')
+                rec = json.loads(cur.fetchone())
+                for machine, status in rec.items():
+                    reply_text += machine + "：" + status + "\n"
+                
                 line_bot_api.reply_message(
                     event.reply_token,
                     TextSendMessage(
-                        str(cur.fetchone())
+                        reply_text
                     )
                 )
 
