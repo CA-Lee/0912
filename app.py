@@ -135,6 +135,59 @@ def textmessage(event):
                 )
             )
         )
+    if mesg[0] == "狀態":
+        with psycopg2.connect(db_url, sslmode='require') as conn:
+            with conn.cursor() as cur:
+                cur.execute('SELECT status FROM machine_status;')
+                rec = json.loads(cur.fetchone()[0])
+                for machine in rec:
+                    if machine['name'] == mesg[1]:
+                        if len(mesg) == 2:
+                            reply_text = "{}：{}".format(
+                                machine['name'], machine['status'])
+                            line_bot_api.reply_message(
+                                event.reply_token,
+                                TextSendMessage(
+                                    text=reply_text,
+                                    quick_reply=QuickReply(
+                                        items=[
+                                            QuickReplyButton(
+                                                action=MessageAction(
+                                                    label="使用中",
+                                                    text="狀態 {machine_name} 使用中".format(
+                                                        machine_name=machine['name'])
+                                                )
+                                            ),
+                                            QuickReplyButton(
+                                                action=MessageAction(
+                                                    label="閒置",
+                                                    text="狀態 {machine_name} 閒置".format(
+                                                        machine_name=machine['name'])
+                                                )
+                                            ),
+                                            QuickReplyButton(
+                                                action=MessageAction(
+                                                    label="取消",
+                                                    text="取消"
+                                                )
+                                            )
+                                        ]
+                                    )
+                                )
+                            )
+                        if len(mesg) == 3:
+                            if mesg[2] in ['使用中', '閒置']:
+                                machine['status'] = mesg[2]
+                                cur.execute('update machine_status set status = \'{status}\' where floor = 9;'.format(
+                                    status=json.dumps(rec)))
+                                reply_text = "{}：{}".format(
+                                    machine['name'], machine['status'])
+                                line_bot_api.reply_message(
+                                    event.reply_token,
+                                    TextSendMessage(
+                                        text=reply_text,
+                                    )
+                                )
 
 
 if __name__ == "__main__":
