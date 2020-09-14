@@ -112,7 +112,7 @@ def textmessage(event):
                         QuickReplyButton(
                             action=MessageAction(
                                 label=machine['name'],
-                                text=machine['name']
+                                text="狀態" + machine['name']
                             )
                         )
                     )
