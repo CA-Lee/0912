@@ -116,6 +116,13 @@ def textmessage(event):
                             )
                         )
                     )
+        quick_reply_buttons.append(
+            QuickReplyButton(
+                action=MessageAction(
+                    label="取消"
+                )
+            )
+        )
 
         line_bot_api.reply_message(
             event.reply_token,
