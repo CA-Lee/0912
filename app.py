@@ -120,7 +120,7 @@ def textmessage(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(
-                text="請選擇機器"
+                text="請選擇機器",
                 quick_reply=QuickReply(
                     items=quick_reply_buttons
                 )
