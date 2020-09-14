@@ -102,35 +102,29 @@ def textmessage(event):
                     )
                 )
     if mesg == "登錄機器狀態":
-        pass
-        """
+        quick_reply_buttons = []
+        with psycopg2.connect(db_url, sslmode='require') as conn:
+            with conn.cursor() as cur:
+                cur.execute('SELECT status FROM machine_status;')
+                rec = json.loads(cur.fetchone()[0])
+                for machine in rec:
+                    quick_reply_buttons.append(
+                        QuickReplyButton(
+                            action=MessageAction(
+                                label=machine['name'],
+                                text=machine['name']
+                            )
+                        )
+                    )
 
-rich_menu_ids['machine9'] = line_bot_api.create_rich_menu(
-    rich_menu=RichMenu(
-        size=RichMenuSize(width=1200, height=800),
-        selected=True,
-        name="machine9",
-        chat_bar_text="Tap here",
-        areas=[
-            RichMenuArea(
-                bounds=RichMenuBounds(
-                    x=0,
-                    y=0,
-                    width=300,
-                    height=400
-                ),
-                action=PostbackAction(
-                    data="machine=洗衣機"
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(
+                quick_reply=QuickReply(
+                    items=quick_reply_buttons
                 )
-            ),
-            
-        ]
-    )
-)
-with open("img/rich_menu/main.png", 'rb') as f:
-    line_bot_api.set_rich_menu_image(rich_menu_ids['main'], 'image/png', f)
-
-        """
+            )
+        )
 
 
 if __name__ == "__main__":
