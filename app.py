@@ -77,16 +77,16 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def textmessage(event):
 
-    mesg = event.message.text
+    mesg = event.message.text.split(' ')
 
-    if mesg == "ping" or mesg == "Ping":
+    if mesg[0] == "ping" or mesg[0] == "Ping":
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(
                 text="PONG!"
             )
         )
-    if mesg == "即時狀態查詢":
+    if mesg[0] == "即時狀態查詢":
         with psycopg2.connect(db_url, sslmode='require') as conn:
             with conn.cursor() as cur:
                 cur.execute('SELECT status FROM machine_status;')
@@ -102,7 +102,7 @@ def textmessage(event):
                         reply_text.strip()
                     )
                 )
-    if mesg == "登錄機器狀態":
+    if mesg[0] == "登錄機器狀態":
         quick_reply_buttons = []
         with psycopg2.connect(db_url, sslmode='require') as conn:
             with conn.cursor() as cur:
