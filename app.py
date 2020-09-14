@@ -119,7 +119,8 @@ def textmessage(event):
         quick_reply_buttons.append(
             QuickReplyButton(
                 action=MessageAction(
-                    label="取消"
+                    label="取消",
+                    text="取消"
                 )
             )
         )
