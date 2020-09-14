@@ -93,8 +93,7 @@ def textmessage(event):
                 rec = json.loads(cur.fetchone()[0])
                 reply_text = ""
                 for machine in rec:
-                    for machine_name, status in machine.items():
-                        reply_text += machine_name + "：" + status + "\n"
+                    reply_text += machine['name'] + "：" + machine['status'] + "\n"
 
                 line_bot_api.reply_message(
                     event.reply_token,
